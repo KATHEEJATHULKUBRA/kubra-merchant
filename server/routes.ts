@@ -117,11 +117,55 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Protected routes
-  // Me endpoint
+  // Me endpoints
   app.get("/api/me", authenticate, async (req: any, res) => {
     // User is already attached to req by authenticate middleware
     const { password: _, ...userWithoutPassword } = req.user;
     return res.status(200).json(userWithoutPassword);
+  });
+  
+  // Update profile endpoint
+  app.patch("/api/me", authenticate, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      
+      // Create a schema for profile update (exclude password and id)
+      const updateProfileSchema = z.object({
+        username: z.string().min(3, "Username must be at least 3 characters").optional(),
+        name: z.string().min(2, "Name must be at least 2 characters").optional(),
+        email: z.string().email("Invalid email address").optional(),
+        phone: z.string().optional().nullable(),
+      });
+      
+      // Validate input data
+      const validatedData = updateProfileSchema.parse(req.body);
+      
+      // If email is being updated, check if it's already in use
+      if (validatedData.email && validatedData.email !== req.user.email) {
+        const existingUser = await storage.getUserByEmail(validatedData.email);
+        if (existingUser && existingUser.id !== userId) {
+          return res.status(400).json({ message: "Email is already in use by another account" });
+        }
+      }
+      
+      // Update user
+      const updatedUser = await storage.updateUser(userId, validatedData);
+      
+      if (!updatedUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      // Return updated user without password
+      const { password: _, ...userWithoutPassword } = updatedUser;
+      return res.status(200).json(userWithoutPassword);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid input", errors: error.errors });
+      }
+      
+      console.error(error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
   });
   
   // Product Routes

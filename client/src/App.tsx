@@ -8,6 +8,7 @@ import Products from "@/pages/Products";
 import Orders from "@/pages/Orders";
 import Shop from "@/pages/Shop";
 import Rental from "@/pages/Rental";
+import Profile from "@/pages/Profile";
 import { useEffect, useState } from "react";
 import { isAuthenticated } from "./lib/auth";
 import { useLocation } from "wouter";
@@ -61,6 +62,7 @@ function App() {
         <Route path="/orders" component={Orders} />
         <Route path="/shop" component={Shop} />
         <Route path="/rental" component={Rental} />
+        <Route path="/profile" component={Profile} />
         
         {/* Fallback to 404 */}
         <Route component={NotFound} />
