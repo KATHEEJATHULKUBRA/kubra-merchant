@@ -110,10 +110,10 @@ export default function Profile() {
 
   return (
     <DashboardLayout>
-      <div className="container mx-auto py-10 space-y-8">
+      <div className="container mx-auto py-6 md:py-10 space-y-6 md:space-y-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">My Profile</h1>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">My Profile</h1>
             <p className="text-muted-foreground">
               View and update your profile information
             </p>
@@ -130,7 +130,7 @@ export default function Profile() {
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           {/* Profile Info Card */}
           <Card className="col-span-1">
             <CardHeader>

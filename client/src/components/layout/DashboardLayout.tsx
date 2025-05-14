@@ -26,7 +26,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   };
 
   return (
-    <div className="w-full h-screen flex flex-col md:flex-row overflow-hidden bg-neutral-50">
+    <div className="w-full min-h-screen flex flex-col md:flex-row bg-neutral-50">
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       
       {/* Mobile menu toggle */}
@@ -42,7 +42,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Main Content */}
       <div className="flex-1 md:ml-64 flex flex-col">
         <Header onToggleSidebar={toggleSidebar} />
-        <main className="flex-1 overflow-auto p-4 md:p-6 pb-16 md:pb-6">
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 pb-20 md:pb-6">
           {children}
         </main>
       </div>
