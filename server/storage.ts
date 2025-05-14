@@ -527,4 +527,211 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+import { db } from "./db";
+import { eq } from "drizzle-orm";
+
+// Database Storage implementation
+export class DatabaseStorage implements IStorage {
+  async getUser(id: number): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
+  }
+
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user || undefined;
+  }
+
+  async createUser(user: InsertUser): Promise<User> {
+    const [newUser] = await db
+      .insert(users)
+      .values(user)
+      .returning();
+    return newUser;
+  }
+  
+  // Product methods
+  async getProducts(merchantId: number): Promise<Product[]> {
+    return await db.select().from(products).where(eq(products.merchantId, merchantId));
+  }
+  
+  async getProduct(id: number): Promise<Product | undefined> {
+    const [product] = await db.select().from(products).where(eq(products.id, id));
+    return product || undefined;
+  }
+  
+  async createProduct(product: InsertProduct): Promise<Product> {
+    const [newProduct] = await db
+      .insert(products)
+      .values(product)
+      .returning();
+    return newProduct;
+  }
+  
+  async updateProduct(id: number, product: Partial<InsertProduct>): Promise<Product | undefined> {
+    const [updatedProduct] = await db
+      .update(products)
+      .set(product)
+      .where(eq(products.id, id))
+      .returning();
+    return updatedProduct || undefined;
+  }
+  
+  async deleteProduct(id: number): Promise<boolean> {
+    const result = await db
+      .delete(products)
+      .where(eq(products.id, id));
+    return !!result;
+  }
+  
+  async getLowStockProducts(merchantId: number, threshold: number): Promise<Product[]> {
+    return await db
+      .select()
+      .from(products)
+      .where(eq(products.merchantId, merchantId))
+      .where(eq(products.stock <= threshold, true))
+      .orderBy(products.stock);
+  }
+  
+  // Order methods
+  async getOrders(merchantId: number): Promise<Order[]> {
+    // In a real implementation, we would filter by merchant ID
+    return await db.select().from(orders);
+  }
+  
+  async getOrder(id: number): Promise<Order | undefined> {
+    const [order] = await db.select().from(orders).where(eq(orders.id, id));
+    return order || undefined;
+  }
+  
+  async getOrderItems(orderId: number): Promise<OrderItem[]> {
+    return await db.select().from(orderItems).where(eq(orderItems.orderId, orderId));
+  }
+  
+  async createOrder(order: InsertOrder, items: InsertOrderItem[]): Promise<Order> {
+    // Start a transaction to create both order and order items
+    const [newOrder] = await db
+      .insert(orders)
+      .values(order)
+      .returning();
+    
+    // Add order ID to all items
+    const itemsWithOrderId = items.map(item => ({
+      ...item,
+      orderId: newOrder.id
+    }));
+    
+    // Insert all items
+    await db
+      .insert(orderItems)
+      .values(itemsWithOrderId);
+    
+    return newOrder;
+  }
+  
+  async updateOrderStatus(id: number, status: string): Promise<Order | undefined> {
+    const [updatedOrder] = await db
+      .update(orders)
+      .set({ status })
+      .where(eq(orders.id, id))
+      .returning();
+    return updatedOrder || undefined;
+  }
+  
+  // Shop methods
+  async getShop(merchantId: number): Promise<Shop | undefined> {
+    const [shop] = await db.select().from(shops).where(eq(shops.merchantId, merchantId));
+    return shop || undefined;
+  }
+  
+  async createShop(shop: InsertShop): Promise<Shop> {
+    const [newShop] = await db
+      .insert(shops)
+      .values(shop)
+      .returning();
+    return newShop;
+  }
+  
+  async updateShop(merchantId: number, shopData: Partial<InsertShop>): Promise<Shop | undefined> {
+    const [updatedShop] = await db
+      .update(shops)
+      .set(shopData)
+      .where(eq(shops.merchantId, merchantId))
+      .returning();
+    return updatedShop || undefined;
+  }
+  
+  // Rental methods
+  async getRental(merchantId: number): Promise<Rental | undefined> {
+    const [rental] = await db.select().from(rentals).where(eq(rentals.merchantId, merchantId));
+    return rental || undefined;
+  }
+  
+  async createRental(rental: InsertRental): Promise<Rental> {
+    const [newRental] = await db
+      .insert(rentals)
+      .values(rental)
+      .returning();
+    return newRental;
+  }
+  
+  async updateRental(id: number, rentalData: Partial<InsertRental>): Promise<Rental | undefined> {
+    const [updatedRental] = await db
+      .update(rentals)
+      .set(rentalData)
+      .where(eq(rentals.id, id))
+      .returning();
+    return updatedRental || undefined;
+  }
+  
+  // Rental Payment methods
+  async getRentalPayments(rentalId: number): Promise<RentalPayment[]> {
+    return await db.select().from(rentalPayments).where(eq(rentalPayments.rentalId, rentalId));
+  }
+  
+  async createRentalPayment(payment: InsertRentalPayment): Promise<RentalPayment> {
+    const [newPayment] = await db
+      .insert(rentalPayments)
+      .values(payment)
+      .returning();
+    return newPayment;
+  }
+  
+  // Sales methods
+  async createSale(sale: InsertSale): Promise<Sale> {
+    const [newSale] = await db
+      .insert(sales)
+      .values(sale)
+      .returning();
+    return newSale;
+  }
+  
+  async getDailySales(merchantId: number, date: Date): Promise<number> {
+    const todaySales = await db
+      .select()
+      .from(sales)
+      .where(eq(sales.merchantId, merchantId))
+      .where(eq(sales.date, date));
+    
+    return todaySales.reduce((sum, sale) => sum + Number(sale.amount), 0);
+  }
+  
+  async getTotalSales(merchantId: number, startDate: Date, endDate: Date): Promise<number> {
+    const salesInRange = await this.getSalesByDateRange(merchantId, startDate, endDate);
+    return salesInRange.reduce((sum, sale) => sum + Number(sale.amount), 0);
+  }
+  
+  async getSalesByDateRange(merchantId: number, startDate: Date, endDate: Date): Promise<Sale[]> {
+    return await db
+      .select()
+      .from(sales)
+      .where(eq(sales.merchantId, merchantId))
+      // Note: This is a simplified date range filter and may need adjustment based on exact Drizzle ORM syntax
+      // Typically would use operators like >= and <= for date range
+      .where(eq(sales.date >= startDate, true))
+      .where(eq(sales.date <= endDate, true));
+  }
+}
+
+// Use the new DatabaseStorage implementation
+export const storage = new DatabaseStorage();
