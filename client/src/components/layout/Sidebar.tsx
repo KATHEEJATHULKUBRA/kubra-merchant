@@ -10,7 +10,8 @@ import {
   FileText, 
   Store, 
   Calendar, 
-  LogOut
+  LogOut,
+  User
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -37,6 +38,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     { path: '/orders', label: 'Orders', icon: <FileText size={20} /> },
     { path: '/shop', label: 'Shop', icon: <Store size={20} /> },
     { path: '/rental', label: 'Rental', icon: <Calendar size={20} /> },
+    { path: '/profile', label: 'Profile', icon: <User size={20} /> },
   ];
 
   return (

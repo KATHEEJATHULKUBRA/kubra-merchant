@@ -63,3 +63,15 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
     return null;
   }
 }
+
+export interface UpdateProfileData {
+  username?: string;
+  email?: string;
+  name?: string;
+  phone?: string | null;
+}
+
+export async function updateProfile(data: UpdateProfileData): Promise<AuthUser> {
+  const res = await apiRequest('PATCH', '/api/me', data);
+  return await res.json();
+}

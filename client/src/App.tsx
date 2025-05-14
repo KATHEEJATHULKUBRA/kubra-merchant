@@ -33,7 +33,8 @@ function App() {
         location.startsWith("/products") || 
         location.startsWith("/orders") || 
         location.startsWith("/shop") || 
-        location.startsWith("/rental");
+        location.startsWith("/rental") ||
+        location.startsWith("/profile");
       
       if (!authenticated && isProtectedRoute) {
         setLocation("/login");
