@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  
+  /* Kubra Market Brand Colors */
+  --primary: 328 50% 47%; /* Pink/Purple */
+  --primary-light: 328 50% 57%;
+  --primary-dark: 328 50% 37%;
+  --primary-foreground: 0 0% 98%;
+  
+  --secondary: 348 54% 74%; /* Light Pink */
+  --secondary-light: 348 80% 94%;
+  --secondary-dark: 348 54% 64%;
+  --secondary-foreground: 240 5.9% 10%;
+  
+  --accent: 348 54% 74%;
+  --accent-foreground: 240 5.9% 10%;
+  
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  
+  --ring: 328 50% 47%;
+  --radius: 0.5rem;
+  
+  /* Chart Colors */
+  --chart-1: 328 50% 47%;
+  --chart-2: 348 54% 74%;
+  --chart-3: 328 50% 57%;
+  --chart-4: 348 80% 94%;
+  --chart-5: 340 65% 85%;
+  
+  /* Sidebar Colors */
+  --sidebar-background: 0 0% 100%;
+  --sidebar-foreground: 240 10% 3.9%;
+  --sidebar-primary: 328 50% 47%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 348 54% 74%;
+  --sidebar-accent-foreground: 240 5.9% 10%;
+  --sidebar-border: 240 5.9% 90%;
+  --sidebar-ring: 328 50% 47%;
+}
+
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  
+  /* Kubra Market Brand Colors - Dark Mode */
+  --primary: 328 50% 47%;
+  --primary-foreground: 0 0% 98%;
+  
+  --secondary: 348 54% 74%;
+  --secondary-foreground: 240 5.9% 10%;
+  
+  --accent: 348 54% 74%;
+  --accent-foreground: 240 5.9% 10%;
+  
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  
+  --ring: 240 4.9% 83.9%;
+  
+  /* Chart Colors */
+  --chart-1: 328 50% 47%;
+  --chart-2: 348 54% 74%;
+  --chart-3: 328 50% 57%;
+  --chart-4: 348 80% 94%;
+  --chart-5: 340 65% 85%;
+  
+  /* Sidebar Colors - Dark Mode */
+  --sidebar-background: 240 10% 3.9%;
+  --sidebar-foreground: 0 0% 98%;
+  --sidebar-primary: 328 50% 47%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 348 54% 74%;
+  --sidebar-accent-foreground: 240 5.9% 10%;
+  --sidebar-border: 240 3.7% 15.9%;
+  --sidebar-ring: 240 4.9% 83.9%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+  }
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-in-out;
+}
+@keyframes slideIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
