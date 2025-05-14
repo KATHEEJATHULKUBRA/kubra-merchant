@@ -1,0 +1,147 @@
+Role: Act as a senior full-stack web developer.
+Goal: Build a professional, fully functional, responsive web app for Kubra Market (Merchant Side).
+
+🔧 Tech Stack
+Frontend: React.js (JavaScript)
+
+Backend: Node.js + Express.js
+
+Database: MySQL or MongoDB
+
+Auth: JWT or session-based
+
+File: Use uploaded logo (basket.png) as branding across pages
+
+Theme: Match theme and colors to the uploaded logo
+
+📄 Pages & Features
+1. Login & Signup Pages
+Use the uploaded basket.png as the logo on both pages.
+
+Match the color theme to the logo.
+
+Must be fully responsive for all screen sizes.
+
+Clean, bug-free, and visually aligned layout.
+
+Dummy login credentials:
+
+Email: merchant@kubra.com
+
+Password: Kubra123
+
+2. Home Page
+Sidebar with:
+
+Logo
+
+Menu: Home, Product, Order, Shop, Rental
+
+Logout button (logs out user and redirects to login page)
+
+Top bar (right side):
+
+Search bar (displays input text dynamically)
+
+Notification bell (shows recent orders)
+
+Profile section (click to view/update merchant profile)
+
+Main content:
+
+Welcome message: "Hi, Merchant [Name]"
+
+Two buttons: Daily Sales, Total Sales
+
+Show respective sales details below
+
+List of low-stock products:
+
+Show: Product Name, Description, On-stock count
+
+3. Product Page
+List of existing products
+
+Add Product button (opens form to add new product)
+
+Each product has:
+
+Name, Description, Price, Image
+
+Edit and Delete icons with backend CRUD functionality
+
+Fully responsive and professional layout
+
+4. Order Page
+Show list of orders:
+
+Customer Name
+
+Order Status
+
+View Summary button (shows product list, quantity, price)
+
+Responsive and bug-free layout
+
+5. Shop Page
+Display:
+
+Shop Name, Number, Banner, Address
+
+Edit button to update shop details (with backend update)
+
+CRUD operation enabled
+
+6. Rental Page
+Show:
+
+Rental Due, Due Date
+
+Make Payment button
+
+Shows rental summary, payment options, payment history
+
+Add animations and clean design
+
+🌈 UI & Design Guidelines
+Match theme to the logo (basket.png)
+
+Use smooth and modern animations on transitions and UI elements
+
+All pages must be:
+
+Cleanly aligned
+
+Responsive (mobile + desktop)
+
+Professional UI and user-friendly
+
+Use React Router for page navigation
+
+Animate using Framer Motion or CSS transitions
+
+🗄️ Backend & .env
+Use Node.js with Express to create RESTful API routes
+
+Backend endpoints for: Auth, Products, Orders, Shop, Rental
+
+Connect to MySQL or MongoDB
+
+Provide .env with:
+
+env
+Copy
+Edit
+PORT=5000
+DB_URL=your_database_connection_string
+JWT_SECRET=your_jwt_secret_key
+✅ Final Requirement
+Complete full-stack web app (frontend + backend + database)
+
+Must work in Replit (can run backend and frontend in one Replit with concurrently)
+
+All pages and functions must be tested, error-free, design-bug free
+
+Mobile and desktop friendly
+
+Use uploaded logo as brand asset
