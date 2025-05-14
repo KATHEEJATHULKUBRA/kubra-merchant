@@ -528,7 +528,7 @@ export class MemStorage implements IStorage {
 }
 
 import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 // Database Storage implementation
 export class DatabaseStorage implements IStorage {
@@ -589,7 +589,9 @@ export class DatabaseStorage implements IStorage {
       .select()
       .from(products)
       .where(eq(products.merchantId, merchantId))
-      .where(eq(products.stock <= threshold, true))
+      .where(
+        sql`${products.stock} <= ${threshold}`
+      )
       .orderBy(products.stock);
   }
   
@@ -726,10 +728,9 @@ export class DatabaseStorage implements IStorage {
       .select()
       .from(sales)
       .where(eq(sales.merchantId, merchantId))
-      // Note: This is a simplified date range filter and may need adjustment based on exact Drizzle ORM syntax
-      // Typically would use operators like >= and <= for date range
-      .where(eq(sales.date >= startDate, true))
-      .where(eq(sales.date <= endDate, true));
+      .where(
+        sql`${sales.date} >= ${startDate} AND ${sales.date} <= ${endDate}`
+      );
   }
 }
 
