@@ -67,28 +67,26 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             <ul className="space-y-2">
               {navItems.map((item) => (
                 <li key={item.path}>
-                  <Link href={item.path}>
-                    <a
+                  <Link href={item.path}
+                    className={cn(
+                      "flex items-center p-2 text-base font-normal rounded-lg group transition-all",
+                      location === item.path
+                        ? "text-neutral-900 bg-neutral-100"
+                        : "text-neutral-600 hover:bg-neutral-100"
+                    )}
+                    onClick={onClose}
+                  >
+                    <span 
                       className={cn(
-                        "flex items-center p-2 text-base font-normal rounded-lg group transition-all",
+                        "mr-3",
                         location === item.path
-                          ? "text-neutral-900 bg-neutral-100"
-                          : "text-neutral-600 hover:bg-neutral-100"
+                          ? "text-primary"
+                          : "text-neutral-500"
                       )}
-                      onClick={onClose}
                     >
-                      <span 
-                        className={cn(
-                          "mr-3",
-                          location === item.path
-                            ? "text-primary"
-                            : "text-neutral-500"
-                        )}
-                      >
-                        {item.icon}
-                      </span>
-                      <span>{item.label}</span>
-                    </a>
+                      {item.icon}
+                    </span>
+                    <span>{item.label}</span>
                   </Link>
                 </li>
               ))}

@@ -126,11 +126,12 @@ export default function Login() {
                 )}
               />
               
-              <Link href="#">
-                <a className="text-sm font-medium text-primary hover:text-primary-dark">
-                  Forgot your password?
-                </a>
-              </Link>
+              <button 
+                onClick={() => window.alert("Password reset functionality is not implemented")}
+                className="text-sm font-medium text-primary hover:text-primary-dark"
+              >
+                Forgot your password?
+              </button>
             </div>
 
             <Button 
@@ -146,8 +147,8 @@ export default function Login() {
         <div className="text-center mt-4">
           <p className="text-sm text-neutral-600">
             Don't have an account?{' '}
-            <Link href="/signup">
-              <a className="font-medium text-primary hover:text-primary-dark">Sign up</a>
+            <Link href="/signup" className="font-medium text-primary hover:text-primary-dark">
+              Sign up
             </Link>
           </p>
         </div>
