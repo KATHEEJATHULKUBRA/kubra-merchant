@@ -28,7 +28,7 @@ interface HeaderProps {
 
 export default function Header({ onToggleSidebar }: HeaderProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const { data: user } = useQuery({ 
+  const { data: user } = useQuery({
     queryKey: ['/api/me'],
     staleTime: 300000, // 5 minutes
   });
@@ -37,8 +37,8 @@ export default function Header({ onToggleSidebar }: HeaderProps) {
     <header className="bg-white shadow-sm z-10 p-4">
       <div className="flex justify-between items-center">
         <div className="md:hidden">
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             size="icon"
             onClick={onToggleSidebar}
             aria-label="Toggle menu"
@@ -46,7 +46,7 @@ export default function Header({ onToggleSidebar }: HeaderProps) {
             <Menu className="text-neutral-600" />
           </Button>
         </div>
-        
+
         <div className="flex-1 flex justify-end items-center space-x-4">
           {/* Search */}
           <div className="relative max-w-xs w-full hidden md:block">
@@ -60,7 +60,7 @@ export default function Header({ onToggleSidebar }: HeaderProps) {
               <Search className="w-4 h-4 text-neutral-500" />
             </div>
           </div>
-          
+
           {/* Notifications */}
           <Popover>
             <PopoverTrigger asChild>
@@ -99,17 +99,19 @@ export default function Header({ onToggleSidebar }: HeaderProps) {
               </div>
             </PopoverContent>
           </Popover>
-          
+
           {/* Profile */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 size="icon"
                 className="rounded-full focus:ring-primary"
               >
-                <Avatar className="h-8 w-8 bg-primary-light text-white">
-                  <AvatarFallback>{user?.name ? getInitials(user.name) : 'M'}</AvatarFallback>
+                <Avatar className="h-8 w-8">
+                  <AvatarFallback className="bg-pink-700 text-white">
+                    {user?.name ? getInitials(user.name) : 'M'}
+                  </AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
@@ -130,7 +132,7 @@ export default function Header({ onToggleSidebar }: HeaderProps) {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem 
+              <DropdownMenuItem
                 className="text-red-500 focus:text-red-500"
                 onSelect={() => {
                   localStorage.removeItem('auth_token');
